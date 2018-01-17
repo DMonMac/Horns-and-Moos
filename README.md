@@ -12,13 +12,14 @@ This is a Bulls and Cows game under a different name.
 
 #### Example
 Number: ***5 4 9 2***
-| Guess | Result |
-|-------|--------|
-| 1 *2* 3 *4* | 0 Bulls, 2 *Cows* |
-| **5** 6 7 8 | 1 **Bull**, 0 Cows |
-| **5** *2* 3 *4* | 1 **Bull**, 2 *Cows* |
-| **5** *9* *4* **2** | 2 **Bulls**, 2 *Cows* |
-| **5** **4** **9** **2** | 4 **Bulls**, 0 Cows |
+
+Guess | Result
+----- | ------
+ 1 *2* 3 *4* | 0 Bulls, 2 *Cows*
+ **5** 6 7 8 | 1 **Bull**, 0 Cows
+ **5** *2* 3 *4* | 1 **Bull**, 2 *Cows*
+ **5** *9* *4* **2** | 2 **Bulls**, 2 *Cows*
+ **5** **4** **9** **2** | 4 **Bulls**, 0 Cows
 
 ### Word Version
 - Similar to the [Numerical Version](#numerical-version) but instead of numbers, words are used.
