@@ -55,14 +55,14 @@ class Console extends Component {
   showResult(event) {
     event.preventDefault();
     if (this.state.guess.length === this.state.digits) {
-      this.setState({guesses: this.state.guesses.concat(this.state.guess)}, () => {
-        console.log(this.state.guesses)
-      });
+      this.setState({guesses: this.state.guesses.concat(this.state.guess)});
 
       let numDigits = this.state.number.split('');
       let guessDigits = this.state.guess.split('');
       console.log(numDigits)
       console.log(guessDigits)
+
+      
 
 
       console.log("Result for " + this.state.guess + ":");
