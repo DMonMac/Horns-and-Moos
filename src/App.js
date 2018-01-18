@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import NumberConsole from './Components/NumberConsole.js';
+import Console from './Components/Numerical/Console.js';
 
 class App extends Component {
   constructor(props) {
@@ -13,14 +13,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Horns and Moos</h1>
-        </header>
+      <div>
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">Horns and Moos</h1>
+          </header>
+        </div>
         <button>Numerical</button><button>Word</button>
         <div>
-          <NumberConsole />
+          <Console />
         </div>
       </div>
     );
