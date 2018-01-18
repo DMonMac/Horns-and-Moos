@@ -7,15 +7,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: 0,
       word: null
     }
   }
-
-  generateNumber() {
-    console.log(Math.random())
-  }
-
 
   render() {
     return (
@@ -24,9 +18,9 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Horns and Moos</h1>
         </header>
-        <button onClick={this.generateNumber}>Numbers</button>
+        <button onClick={this.showNumberConsole}>Numerical</button><button>Word</button>
         <div>
-        <NumberConsole number={this.state.number}/>
+          <NumberConsole />
         </div>
       </div>
     );
