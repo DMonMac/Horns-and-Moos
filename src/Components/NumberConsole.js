@@ -4,7 +4,7 @@ class NumberConsole extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: 0,
+      number: '0000',
       digits: 4,
       guess: '0000'
     };
