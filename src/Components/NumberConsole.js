@@ -6,9 +6,11 @@ class NumberConsole extends Component {
     this.state = {
       number: '0000',
       digits: 4,
-      guess: '0000'
+      guess: ''
     };
     this.newNumber = this.newNumber.bind(this);
+    this.inputGuess = this.inputGuess.bind(this);
+    this.showResult = this.showResult.bind(this);
   }
 
   componentDidMount() {
@@ -18,7 +20,9 @@ class NumberConsole extends Component {
     while (numberToGuess.length < length) {
       numberToGuess = '0' + numberToGuess
     }
-    this.setState({number: numberToGuess});
+    this.setState({number: numberToGuess}, () => {
+      console.log("Created new number: " + this.state.number)
+    });
   }
 
   newNumber() {
@@ -28,29 +32,43 @@ class NumberConsole extends Component {
     while (numberToGuess.length < length) {
       numberToGuess = '0' + numberToGuess
     }
-    this.setState({number: numberToGuess});
+    this.setState({number: numberToGuess}, () => {
+      console.log("Created new number: " + this.state.number)
+    });
   }
 
-  showResult() {
-    console.log("Showing result of guessed number");
+  inputGuess(event) {
+    this.setState({guess: event.target.value})
+  }
+
+  showResult(event) {
+    event.preventDefault();
+    console.log("Guess: " + this.state.guess)
+    if (this.state.guess.length === this.state.digits) {
+        console.log("Showing result for " + this.state.guess);
+    } else {
+      alert("Please input a " + this.state.digits +"-digit number" )
+    }
+
   }
 
   render() {
-    console.log("Created new number: " + this.state.number)
     return (
       <div>
         <h3>Numerical Bulls and Cows:</h3>
         <button onClick={this.newNumber}>New Game</button>
-          <div>
+          <form>
+            <label>Guess:</label>
             <input
-              //value = {this.state.guess}
-              ref={(input) => {this.numberInput = input; }}
+              value = {this.state.guess}
+              onChange={this.inputGuess}
               type="number"
               min='0'
               max={Math.pow(10, this.state.digits)-1}
-              placeholder="Input number here"
-            /><button onClick={this.showResult}>Try</button><br/>
-          </div>
+              placeholder={'Input ' + this.state.digits + '-digit number'}
+            />
+            <button type="submit" onClick={this.showResult}>Try</button><br/>
+          </form>
       </div>
     );
   }
