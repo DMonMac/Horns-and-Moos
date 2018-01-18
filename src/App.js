@@ -18,7 +18,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Horns and Moos</h1>
         </header>
-        <button onClick={this.showNumberConsole}>Numerical</button><button>Word</button>
+        <button>Numerical</button><button>Word</button>
         <div>
           <NumberConsole />
         </div>

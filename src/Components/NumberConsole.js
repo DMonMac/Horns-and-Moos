@@ -4,8 +4,9 @@ class NumberConsole extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: '',
-      digits: 4
+      number: 0,
+      digits: 4,
+      guess: '0000'
     };
     this.newNumber = this.newNumber.bind(this);
   }
@@ -16,7 +17,6 @@ class NumberConsole extends Component {
     let numberToGuess = '' + numberGen;
     while (numberToGuess.length < length) {
       numberToGuess = '0' + numberToGuess
-      console.log(numberToGuess)
     }
     this.setState({number: numberToGuess});
   }
@@ -43,7 +43,7 @@ class NumberConsole extends Component {
         <button onClick={this.newNumber}>New Game</button>
           <div>
             <input
-              //value ='0000'
+              //value = {this.state.guess}
               ref={(input) => {this.numberInput = input; }}
               type="number"
               min='0'
