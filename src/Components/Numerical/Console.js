@@ -10,11 +10,14 @@ class Console extends Component {
       guess: '',
       guesses: [],
       bulls: 0,
+      bullIndeces: [],
       cows: 0
     };
     this.newGame = this.newGame.bind(this);
     this.inputGuess = this.inputGuess.bind(this);
     this.showResult = this.showResult.bind(this);
+    this.countBulls = this.countBulls.bind(this);
+    this.countCows = this.countCows.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +29,9 @@ class Console extends Component {
     }
     this.setState({number: numberToGuess}, () => {
       console.log("Created new number: " + this.state.number)
+      console.log("Guess: " + this.state.guess)
+      console.log("Bulls: " + this.state.bulls)
+      console.log("Cows: " + this.state.cows)
     });
   }
 
@@ -40,16 +46,59 @@ class Console extends Component {
                    guess: '',
                    guesses: [],
                    bulls: 0,
+                   bullIndeces: [],
                    cows: 0}, () => {
-                     //console.log("Created new number: " + this.state.number)
-                     //console.log("Guess: " + this.state.guess)
-                     //console.log("Bulls: " + this.state.bulls)
-                     //console.log("Cows: " + this.state.cows)
+                     console.log("Created new number: " + this.state.number)
+                     console.log("Guess: " + this.state.guess)
+                     console.log("Bulls: " + this.state.bulls)
+                     console.log("Cows: " + this.state.cows)
                    });
   }
 
   inputGuess(event) {
     this.setState({guess: event.target.value})
+  }
+
+  countCows() {
+    let numDigits = this.state.number.split('')
+    let guessDigits = this.state.guess.split('')
+    let toCheck = this.state.bullIndeces
+    //Solve for Cows
+    console.log(toCheck)
+    toCheck.forEach(index => {
+      numDigits.splice(index,1)
+      guessDigits.splice(index,1)
+      console.log(numDigits)
+      console.log(guessDigits)
+    })
+  }
+
+  countBulls() {
+    //Reset count
+    let numDigits = this.state.number.split('')
+    let guessDigits = this.state.guess.split('')
+    let bulls = 0
+    let bullIndeces = []
+    let cows = 0
+
+    //Solve for Bulls:
+    console.log('Solve for Bulls:')
+    for(var i = numDigits.length -1; i >=0; i--){
+      console.log("Index: " + i)
+      console.log("Number Digit: " + numDigits[i])
+      let guessDigit = guessDigits[i]
+      console.log("Guess Digit: "+guessDigit)
+      if (guessDigit === numDigits[i]) {
+        bulls++;
+        bullIndeces = bullIndeces.concat(i)
+        this.setState({
+          bulls: bulls,
+          bullIndeces: bullIndeces
+        }, ()=>{
+          this.countCows()
+        })
+      }
+    }
   }
 
   showResult(event) {
@@ -58,40 +107,19 @@ class Console extends Component {
       this.setState({
         guesses: this.state.guesses.concat(this.state.guess),
         bulls: 0,
+        bullIndeces: [],
         cows: 0
       }, () => {
-
-        let numDigits = this.state.number.split('')
-        let guessDigits = this.state.guess.split('')
-        let index = -1
-        let bulls = 0
-        let cows = 0
-
         console.log("Result for " + this.state.guess + ":")
-
-        
-
-        numDigits.forEach(numDigit => {
-          index++;
-          //console.log("Index: "+index)
-          //Solve for Bulls
-          //console.log("Number Digit: "+numDigit)
-          let guessDigit = guessDigits[index]
-          //console.log("Guess Digit: "+guessDigit)
-          if (guessDigit === numDigit) {
-            bulls++;
-            this.setState({bulls: bulls})
-          }
-        })
+        this.countBulls()
       });
-
     } else {
         alert("Please input a " + this.state.digits +"-digit number" )
       }
   }
 
   render() {
-    console.log("this.state.bulls: "+this.state.bulls)
+    console.log(this.state.bullIndeces)
     return (
       <div>
         <h2>Numerical Bulls and Cows:</h2>
