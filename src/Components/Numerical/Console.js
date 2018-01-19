@@ -55,32 +55,39 @@ class Console extends Component {
   showResult(event) {
     event.preventDefault();
     if (this.state.guess.length === this.state.digits) {
-      this.setState({guesses: this.state.guesses.concat(this.state.guess)});
+      this.setState({
+        guesses: this.state.guesses.concat(this.state.guess),
+        bulls: 0,
+        cows: 0
+      }, () => {
 
-      let numDigits = this.state.number.split('')
-      let guessDigits = this.state.guess.split('')
-      let ctr = -1
-      let bulls = 0
-      let cows = 0
+        let numDigits = this.state.number.split('')
+        let guessDigits = this.state.guess.split('')
+        let index = -1
+        let bulls = 0
+        let cows = 0
 
-      console.log("Result for " + this.state.guess + ":")
+        console.log("Result for " + this.state.guess + ":")
 
-      numDigits.forEach(numDigit => {
-        ctr++;
-        console.log("Counter: "+ctr)
-        console.log("Number Digit: "+numDigit)
-        let guessDigit = guessDigits[ctr]
-        console.log("Guess Digit: "+guessDigit)
-        if ( guessDigit === numDigit) {
-          bulls++;
-          this.setState({bulls: bulls})
-        }
-      })
+        
+
+        numDigits.forEach(numDigit => {
+          index++;
+          //console.log("Index: "+index)
+          //Solve for Bulls
+          //console.log("Number Digit: "+numDigit)
+          let guessDigit = guessDigits[index]
+          //console.log("Guess Digit: "+guessDigit)
+          if (guessDigit === numDigit) {
+            bulls++;
+            this.setState({bulls: bulls})
+          }
+        })
+      });
 
     } else {
         alert("Please input a " + this.state.digits +"-digit number" )
       }
-
   }
 
   render() {
