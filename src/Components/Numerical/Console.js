@@ -41,10 +41,10 @@ class Console extends Component {
                    guesses: [],
                    bulls: 0,
                    cows: 0}, () => {
-                     console.log("Created new number: " + this.state.number)
-                     console.log("Guess: " + this.state.guess)
-                     console.log("Bulls: " + this.state.bulls)
-                     console.log("Cows: " + this.state.cows)
+                     //console.log("Created new number: " + this.state.number)
+                     //console.log("Guess: " + this.state.guess)
+                     //console.log("Bulls: " + this.state.bulls)
+                     //console.log("Cows: " + this.state.cows)
                    });
   }
 
@@ -57,23 +57,34 @@ class Console extends Component {
     if (this.state.guess.length === this.state.digits) {
       this.setState({guesses: this.state.guesses.concat(this.state.guess)});
 
-      let numDigits = this.state.number.split('');
-      let guessDigits = this.state.guess.split('');
-      console.log(numDigits)
-      console.log(guessDigits)
+      let numDigits = this.state.number.split('')
+      let guessDigits = this.state.guess.split('')
+      let ctr = -1
+      let bulls = 0
+      let cows = 0
 
-      
+      console.log("Result for " + this.state.guess + ":")
 
-
-      console.log("Result for " + this.state.guess + ":");
+      numDigits.forEach(numDigit => {
+        ctr++;
+        console.log("Counter: "+ctr)
+        console.log("Number Digit: "+numDigit)
+        let guessDigit = guessDigits[ctr]
+        console.log("Guess Digit: "+guessDigit)
+        if ( guessDigit === numDigit) {
+          bulls++;
+          this.setState({bulls: bulls})
+        }
+      })
 
     } else {
-      alert("Please input a " + this.state.digits +"-digit number" )
+        alert("Please input a " + this.state.digits +"-digit number" )
       }
 
   }
 
   render() {
+    console.log("this.state.bulls: "+this.state.bulls)
     return (
       <div>
         <h2>Numerical Bulls and Cows:</h2>
