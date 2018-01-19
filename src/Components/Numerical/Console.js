@@ -24,6 +24,7 @@ class Console extends Component {
       numberToGuess = '0' + numberToGuess
     }
     this.setState({number: numberToGuess}, () => {
+      document.getElementById("tryButton").style.pointerEvents = 'auto';
       console.log("Created new number: " + this.state.number)
       console.log("Initializing...")
       console.log("Input: " + this.state.input)
@@ -41,6 +42,7 @@ class Console extends Component {
       numberToGuess = '0' + numberToGuess
     }
     // Reinitialize states
+    document.getElementById("tryButton").style.pointerEvents = 'auto';
     this.setState({
       number: numberToGuess,
       input: '',
@@ -71,7 +73,7 @@ class Console extends Component {
       let moos = 0
       console.log('Guess: ' + this.state.input)
       console.log('Results for ' + this.state.input + ":")
-      
+
       //Solve for Horns:
       console.log('Solve for Horns:')
       // Compare number and guess by index
@@ -118,35 +120,53 @@ class Console extends Component {
               guess: this.state.input,
               horns: horns,
               hornIndeces: hornIndeces,
-              cows: moos
+              moos: moos
             }
           ]
         )
       }, () => {
         console.log('Stored this data in records:')
-        console.log(this.state.records[this.state.records.length -1])
+        console.log(this.state.records[this.state.records.length - 1])
         console.log('Records updated:')
         console.log(this.state.records)
-      })
-
+        let lastRecord = this.state.records[this.state.records.length - 1]
+        if (lastRecord.horns === 4) {
+          document.getElementById("tryButton").style.pointerEvents = 'none';
+          console.log("'Try' button now disabled. Click 'New Game' to play again.")
+        }
+      });
       console.log('Resetting input field...')
       document.getElementById("guessInput").reset()
+
     } else {
         alert("Please input a " + this.state.digits +"-digit number" )
       }
   }
 
-  render() {
+  giveUp(){
+      document.getElementById("tryButton").style.pointerEvents = 'none';
+      alert("'Try' button now disabled. Click 'New Game' to play again.")
+    }
 
+  render() {
+    let status;
+    if (this.state.records.length !== 0) {
+      let records = this.state.records
+      let lastRecord = records[records.length - 1]
+      if (lastRecord.horns !== 4) {
+        status = "Keep guessing..."
+      } else {
+        status = "You got it! Good job!"
+      }
+    }
     return (
       <div>
         <h2>Numerical Bulls and Cows:</h2>
-        <button onClick={this.newGame}>New Game</button>
+        <button onClick={this.newGame}>New Game</button><button onClick={this.giveUp}>Give Up</button>
         <p>I'm thinking of a {this.state.digits}-digit number...</p>
           <form id="guessInput">
             <label>Guess:</label>
             <input
-
               value = {this.state.guess}
               onChange={this.inputGuess}
               type="number"
@@ -154,13 +174,15 @@ class Console extends Component {
               max={Math.pow(10, this.state.digits)-1}
               placeholder={'Input ' + this.state.digits + '-digit number'}
             />
-            <button type="submit" onClick={this.resultCount}>Try</button><br/>
+            <button
+              id="tryButton"
+              type="submit"
+              onClick={this.resultCount}>Try</button><br/>
           </form>
           <Results
             records={this.state.records}
           />
-
-
+          <div>{status}</div>
       </div>
     );
   }
