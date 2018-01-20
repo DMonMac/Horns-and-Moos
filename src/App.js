@@ -20,6 +20,8 @@ class App extends Component {
       numberConsoleVisible: true,
       wordConsoleVisible: false
     });
+    document.getElementById("numberConsoleButton").disabled = true
+    document.getElementById("wordConsoleButton").disabled = false
   }
 
   showWordConsole() {
@@ -27,6 +29,8 @@ class App extends Component {
       numberConsoleVisible: false,
       wordConsoleVisible: true
     });
+    document.getElementById("wordConsoleButton").disabled = true
+    document.getElementById("numberConsoleButton").disabled = false
   }
 
   render() {
@@ -38,7 +42,7 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Horns and Moos</h1>
           </header>
-          <button onClick={() => this.showNumberConsole()}>Numerical</button><button onClick={() => this.showWordConsole()}>Word</button>
+          <button onClick={() => this.showNumberConsole()} id="numberConsoleButton">Numerical</button><button onClick={() => this.showWordConsole()} id="wordConsoleButton">Word</button>
         </div>
         <div id="consoleDock">
           {this.state.numberConsoleVisible ? <NumberConsole /> : null}
