@@ -13,7 +13,7 @@ class Console extends Component {
 
     this.newGame = this.newGame.bind(this);
     this.inputDigits = this.inputDigits.bind(this);
-    this.digitSubmit = this.digitSubmit.bind(this);
+    this.digitsSubmit = this.digitsSubmit.bind(this);
     this.inputGuess = this.inputGuess.bind(this);
     this.resultCount = this.resultCount.bind(this);
     this.giveUp = this.giveUp.bind(this);
@@ -60,9 +60,9 @@ class Console extends Component {
       () => {this.newGame()}
     )
   }
-  digitSubmit(event) {
+  // Prevent action when 'Enter' is pressed in input field
+  digitsSubmit(event) {
     event.preventDefault();
-    alert("Number of digits already set.")
   }
   inputGuess(event) {
     this.setState({input: event.target.value})
@@ -174,7 +174,7 @@ class Console extends Component {
     return (
       <div>
         <h2>Numerical Horns and Moos:</h2>
-        <form id="digitInput">
+        <form id="digitInput" onSubmit={this.digitsSubmit}>
           <label>Digits: </label>
           <input
             value = {this.state.digits}
