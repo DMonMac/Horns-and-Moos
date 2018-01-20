@@ -160,7 +160,7 @@ class Console extends Component {
     }
     return (
       <div>
-        <h2>Numerical Bulls and Cows:</h2>
+        <h2>Numerical Horns and Moos:</h2>
         <form id="digitInput">
           <label>Digits: </label>
           <input
