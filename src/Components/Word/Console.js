@@ -151,7 +151,7 @@ class Console extends Component {
     }
     return (
       <div>
-        <h2>Numerical Bulls and Cows:</h2>
+        <h2>Word Bulls and Cows:</h2>
         <button onClick={this.newGame}>New Game</button><button onClick={this.giveUp}>Give Up</button>
         <p>I'm thinking of a {this.state.digits}-digit number...</p>
           <form id="guessInput">
