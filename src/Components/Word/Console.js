@@ -13,6 +13,7 @@ class Console extends Component {
 
     this.newGame = this.newGame.bind(this);
     this.inputDigits = this.inputDigits.bind(this);
+    this.digitsSubmit = this.digitsSubmit.bind(this);
     this.inputGuess = this.inputGuess.bind(this);
     this.resultCount = this.resultCount.bind(this);
     this.giveUp = this.giveUp.bind(this);
@@ -32,9 +33,9 @@ class Console extends Component {
     }
     // Reinitialize states
     document.getElementById("guessInput").reset();
-    document.getElementById("guessButton").style.pointerEvents = 'auto'
+    document.getElementById("guessButton").disabled = false
     document.getElementById("statusMonitor").innerHTML = ""
-    document.getElementById("giveUpButton").style.pointerEvents = 'auto'
+    document.getElementById("giveUpButton").disabled = false
     this.setState({
       number: numberToGuess,
       input: '',
@@ -50,13 +51,25 @@ class Console extends Component {
   }
   // Required so that it's possible to input on the forms
   inputDigits(event) {
+    if (event.target.value < 1) {
+      alert("1 is the minimum allowed digit.")
+      document.getElementById("digitsInput").reset();
+    }
     this.setState(
       {digits: event.target.value},
       () => {this.newGame()}
     )
   }
+  // Prevent action when 'Enter' is pressed in input field
+  digitsSubmit(event) {
+    event.preventDefault();
+  }
   inputGuess(event) {
     this.setState({input: event.target.value})
+    if (event.target.value < 0) {
+      alert("Negative numbers are not allowed")
+      document.getElementById("guessInput").reset();
+    }
   }
   // Count Horns and Moos on click
   resultCount(event) {
@@ -141,8 +154,8 @@ class Console extends Component {
   giveUp(){
     console.log('Player gave up.')
     document.getElementById("statusMonitor").innerHTML = "The number was " + this.state.number +". Click 'New Game' to play again."
-    document.getElementById("guessButton").style.pointerEvents = 'none'
-    document.getElementById("giveUpButton").style.pointerEvents = 'none'
+    document.getElementById("guessButton").disabled = true
+    document.getElementById("giveUpButton").disabled = true
   }
 
   render() {
@@ -153,21 +166,21 @@ class Console extends Component {
         document.getElementById("statusMonitor").innerHTML = "Keep guessing..."
       } else {
         document.getElementById("statusMonitor").innerHTML = "You got it! Good job!"
-        document.getElementById("guessButton").style.pointerEvents = 'none'
-        document.getElementById("giveUpButton").style.pointerEvents = 'none'
+        document.getElementById("guessButton").disabled = true
+        document.getElementById("giveUpButton").disabled = true
         console.log("'Try' button now disabled. Click 'New Game' to play again.")
       }
     }
     return (
       <div>
         <h2>Word Horns and Moos:</h2>
-        <form id="digitInput">
+        <form id="digitsInput" onSubmit={this.digitsSubmit}>
           <label>Letters: </label>
           <input
             value = {this.state.digits}
             onChange={this.inputDigits}
             type="number"
-            min='2'
+            min='1'
             placeholder={'Input number of letters'}
           />
         </form>

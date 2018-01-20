@@ -174,7 +174,7 @@ class Console extends Component {
     return (
       <div>
         <h2>Numerical Horns and Moos:</h2>
-        <form id="digitInput" onSubmit={this.digitsSubmit}>
+        <form id="digitsInput" onSubmit={this.digitsSubmit}>
           <label>Digits: </label>
           <input
             value = {this.state.digits}
