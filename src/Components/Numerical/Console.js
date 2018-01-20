@@ -12,6 +12,7 @@ class Console extends Component {
     };
 
     this.newGame = this.newGame.bind(this);
+    this.inputDigits = this.inputDigits.bind(this);
     this.inputGuess = this.inputGuess.bind(this);
     this.resultCount = this.resultCount.bind(this);
     this.giveUp = this.giveUp.bind(this);
@@ -30,8 +31,10 @@ class Console extends Component {
       numberToGuess = '0' + numberToGuess
     }
     // Reinitialize states
-    document.getElementById("statusMonitor").innerHTML = "";
-    document.getElementById("tryButton").style.pointerEvents = 'auto';
+    document.getElementById("guessInput").reset();
+    document.getElementById("guessButton").style.pointerEvents = 'auto'
+    document.getElementById("statusMonitor").innerHTML = ""
+    document.getElementById("giveUpButton").style.pointerEvents = 'auto'
     this.setState({
       number: numberToGuess,
       input: '',
@@ -45,14 +48,20 @@ class Console extends Component {
              }
     );
   }
-  // Required so that it's possible to input numbers
+  // Required so that it's possible to input on the forms
+  inputDigits(event) {
+    this.setState(
+      {digits: event.target.value},
+      () => {this.newGame()}
+    )
+  }
   inputGuess(event) {
     this.setState({input: event.target.value})
   }
   // Count Horns and Moos on click
   resultCount(event) {
     event.preventDefault();
-    if (this.state.input.length === this.state.digits) {
+    if (this.state.input.length == this.state.digits) {
       // Required values
       let numDigits = this.state.number.split('')
       let inputDigits = this.state.input.split('')
@@ -120,11 +129,6 @@ class Console extends Component {
         console.log(this.state.records[this.state.records.length - 1])
         console.log('Records updated:')
         console.log(this.state.records)
-        let lastRecord = this.state.records[this.state.records.length - 1]
-        if (lastRecord.horns === 4) {
-          document.getElementById("tryButton").style.pointerEvents = 'none';
-          console.log("'Try' button now disabled. Click 'New Game' to play again.")
-        }
       });
       console.log('Resetting input field...')
       document.getElementById("guessInput").reset()
@@ -135,27 +139,41 @@ class Console extends Component {
   }
 
   giveUp(){
-    document.getElementById("statusMonitor").innerHTML = "The number was " + this.state.number +". Click 'New Game' to play again.";
-    document.getElementById("tryButton").style.pointerEvents = 'none';
+    console.log('Player gave up.')
+    document.getElementById("statusMonitor").innerHTML = "The number was " + this.state.number +". Click 'New Game' to play again."
+    document.getElementById("guessButton").style.pointerEvents = 'none'
+    document.getElementById("giveUpButton").style.pointerEvents = 'none'
   }
 
   render() {
     if (this.state.records.length !== 0) {
       let records = this.state.records
       let lastRecord = records[records.length - 1]
-      if (lastRecord.horns !== 4) {
+      if (lastRecord.horns != this.state.digits) {
         document.getElementById("statusMonitor").innerHTML = "Keep guessing..."
       } else {
         document.getElementById("statusMonitor").innerHTML = "You got it! Good job!"
+        document.getElementById("guessButton").style.pointerEvents = 'none'
+        document.getElementById("giveUpButton").style.pointerEvents = 'none'
+        console.log("'Try' button now disabled. Click 'New Game' to play again.")
       }
     }
     return (
       <div>
         <h2>Numerical Bulls and Cows:</h2>
-        <button onClick={this.newGame}>New Game</button><button onClick={this.giveUp}>Give Up</button>
+        <form id="digitInput">
+          <label>Digits: </label>
+          <input
+            value = {this.state.digits}
+            onChange={this.inputDigits}
+            type="number"
+            min='2'
+            placeholder={'Input number of digits'}
+          />
+        </form>
         <p>I'm thinking of a {this.state.digits}-digit number...</p>
           <form id="guessInput">
-            <label>Guess:</label>
+            <label>Guess: </label>
             <input
               value = {this.state.guess}
               onChange={this.inputGuess}
@@ -165,7 +183,7 @@ class Console extends Component {
               placeholder={'Input ' + this.state.digits + '-digit number'}
             />
             <button
-              id="tryButton"
+              id="guessButton"
               type="submit"
               onClick={this.resultCount}>Try</button><br/>
           </form>
@@ -173,6 +191,7 @@ class Console extends Component {
             records={this.state.records}
           />
           <div id="statusMonitor"></div>
+          <button onClick={this.newGame}>New Game</button><button onClick={this.giveUp} id="giveUpButton">Give Up</button>
       </div>
     );
   }
