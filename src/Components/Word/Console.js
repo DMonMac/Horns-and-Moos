@@ -1,83 +1,95 @@
 import React, { Component } from 'react';
 import Results from './Results.js';
+import wordsList from './wordsList.js';
 
 class Console extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: '',
-      digits: 4,
+      word: '',
+      letters: 4,
       input: '',
       records: []
     };
 
     this.newGame = this.newGame.bind(this);
-    this.inputDigits = this.inputDigits.bind(this);
-    this.digitsSubmit = this.digitsSubmit.bind(this);
+    this.inputLetters = this.inputLetters.bind(this);
+    this.lettersSubmit = this.lettersSubmit.bind(this);
     this.inputGuess = this.inputGuess.bind(this);
     this.resultCount = this.resultCount.bind(this);
     this.giveUp = this.giveUp.bind(this);
   }
-  //Genereate number when loaded
+
   componentDidMount() {
-    this.newGame()
+    this.stopGame()
+  }
+
+  stopGame() {
+    document.getElementById("lettersInput").disabled = true;
+    document.getElementById("guessInput").disabled = true;
+    document.getElementById("guessButton").disabled = true;
+    document.getElementById("statusMonitor").innerHTML = "Click 'New Game' to start";
+    document.getElementById("giveUpButton").disabled = true;
   }
 
   newGame() {
-    // Generate number
-    let numberGen = Math.floor(Math.random()*Math.floor(Math.pow(10, this.state.digits)));
-    let length = this.state.digits;
-    let numberToGuess = '' + numberGen;
-    while (numberToGuess.length < length) {
-      numberToGuess = '0' + numberToGuess
-    }
-    // Reinitialize states
-    document.getElementById("guessInput").reset();
-    document.getElementById("guessButton").disabled = false
-    document.getElementById("statusMonitor").innerHTML = ""
-    document.getElementById("giveUpButton").disabled = false
-    this.setState({
-      number: numberToGuess,
-      input: '',
-      records: []
-    }, () => {
-               console.log("Created new number: " + this.state.number)
-               console.log("Initializing...")
-               console.log("Input: " + this.state.input)
-               console.log("Records:")
-               console.log(this.state.records)
-             }
-    );
+    //Get words API
+    if (!!Object.keys(wordsList).length) {
+      // Generate word
+      let wordGen = wordsList.data[Math.floor(Math.random() * wordsList.data.length)].toString();
+
+      // Reinitialize states
+      document.getElementById("guessInput").reset();
+      document.getElementById("guessButton").disabled = false
+      document.getElementById("statusMonitor").innerHTML = ""
+      document.getElementById("giveUpButton").disabled = false
+      this.setState({
+        word: wordGen,
+        input: '',
+        records: []
+      }, () => {
+                 console.log("Created new word: " + this.state.word)
+                 console.log("Initializing...")
+                 console.log("Input: " + this.state.input)
+                 console.log("Records:")
+                 console.log(this.state.records)
+               }
+      );
+    } else {
+        alert("Sorry. No word has that number of letters")
+      }
   }
+
   // Required so that it's possible to input on the forms
-  inputDigits(event) {
+  inputLetters(event) {
     if (event.target.value < 1) {
-      alert("1 is the minimum allowed digit.")
-      document.getElementById("digitsInput").reset();
+      alert("1 is the minimum allowed number of letters.")
+      document.getElementById("lettersInput").reset();
     }
     this.setState(
-      {digits: event.target.value},
-      () => {this.newGame()}
+      {letters: event.target.value.toLowerCase()},
+      () => {this.stopGame()}
     )
   }
+
   // Prevent action when 'Enter' is pressed in input field
-  digitsSubmit(event) {
+  lettersSubmit(event) {
     event.preventDefault();
   }
+
   inputGuess(event) {
     this.setState({input: event.target.value})
-    if (event.target.value < 0) {
-      alert("Negative numbers are not allowed")
-      document.getElementById("guessInput").reset();
+    if (event.target.value.match(/[^a-zA-Z]/g)) {
+      alert("Only letters are allowed");
     }
   }
   // Count Horns and Moos on click
   resultCount(event) {
     event.preventDefault();
-    if (this.state.input.length == this.state.digits) {
+    if (this.state.input.length == this.state.letters) {
       // Required values
-      let numDigits = this.state.number.split('')
-      let inputDigits = this.state.input.split('')
+      let wordLetters = this.state.word.split('')
+      let inputLetters = this.state.input.split('')
       let records = this.state.records
 
       // Initialize count
@@ -90,12 +102,12 @@ class Console extends Component {
       //Solve for Horns:
       console.log('Solve for Horns:')
       // Compare number and guess by index
-      for(var i = numDigits.length -1; i >=0; i--){
+      for(var i = wordLetters.length -1; i >=0; i--){
         console.log("Index: " + i)
-        console.log("Number Digit: " + numDigits[i])
-        let inputDigit = inputDigits[i]
-        console.log("Guess Digit: " + inputDigit)
-        if (inputDigit === numDigits[i]) {
+        console.log("Word Letter: " + wordLetters[i])
+        let inputLetter = inputLetters[i]
+        console.log("Guess Letter: " + inputLetter)
+        if (inputLetter === wordLetters[i]) {
           horns++;
           hornIndeces = hornIndeces.concat(i)
         }
@@ -106,21 +118,21 @@ class Console extends Component {
 
       //Solve for Cows
       console.log('Solve for Moos:')
-      console.log('Removing these indeces from Number Digits Array:')
+      console.log('Removing these indeces from Word Letters Array:')
       console.log(hornIndeces)
       hornIndeces.forEach(index => {
-        numDigits.splice(index,1)
-        inputDigits.splice(index,1)
+        wordLetters.splice(index,1)
+        inputLetters.splice(index,1)
       })
-      console.log('Remaining digits to check:')
-      console.log(numDigits)
+      console.log('Remaining letters to check:')
+      console.log(wordLetters)
       console.log('Check with these digits:')
-      console.log(inputDigits)
+      console.log(inputLetters)
 
-      inputDigits.forEach(digit => {
-        let numIndexToRemove = numDigits.indexOf(digit)
-        if (numIndexToRemove !== -1) {
-          numDigits.splice(numIndexToRemove,1)
+      inputLetters.forEach(letter => {
+        let wordIndexToRemove = wordLetters.indexOf(letter)
+        if (wordIndexToRemove !== -1) {
+          wordLetters.splice(wordIndexToRemove,1)
           moos++;
         }
       })
@@ -147,22 +159,23 @@ class Console extends Component {
       document.getElementById("guessInput").reset()
 
     } else {
-        alert("Please input a " + this.state.digits +"-digit number" )
+        alert("Please input " + this.state.letters +" letters." )
       }
   }
 
   giveUp(){
     console.log('Player gave up.')
-    document.getElementById("statusMonitor").innerHTML = "The number was " + this.state.number +". Click 'New Game' to play again."
+    document.getElementById("statusMonitor").innerHTML = "The word was " + this.state.word.toUpperCase() +". Click 'New Game' to play again."
     document.getElementById("guessButton").disabled = true
     document.getElementById("giveUpButton").disabled = true
   }
 
   render() {
+    console.log(wordsList.data)
     if (this.state.records.length !== 0) {
       let records = this.state.records
       let lastRecord = records[records.length - 1]
-      if (lastRecord.horns != this.state.digits) {
+      if (lastRecord.horns != this.state.letters) {
         document.getElementById("statusMonitor").innerHTML = "Keep guessing..."
       } else {
         document.getElementById("statusMonitor").innerHTML = "You got it! Good job!"
@@ -174,26 +187,26 @@ class Console extends Component {
     return (
       <div>
         <h2>Word Horns and Moos:</h2>
-        <form id="digitsInput" onSubmit={this.digitsSubmit}>
+        <form id="lettersInput" onSubmit={this.lettersSubmit}>
           <label>Letters: </label>
           <input
-            value = {this.state.digits}
-            onChange={this.inputDigits}
+            value = {this.state.letters}
+            onChange={this.inputLetters}
             type="number"
             min='1'
-            placeholder={'Input number of letters'}
+            placeholder={'Input how many letters'}
           />
         </form>
-        <p>I'm thinking of a {this.state.digits}-letter word...</p>
+        <p>I'm thinking of a {this.state.letters}-letter word...</p>
           <form id="guessInput">
             <label>Guess: </label>
             <input
               value = {this.state.guess}
               onChange={this.inputGuess}
-              type="number"
-              min='0'
-              max={Math.pow(10, this.state.digits)-1}
-              placeholder={'Input ' + this.state.digits + '-letter word'}
+              type="text"
+              min={this.state.letters}
+              max={this.state.letters}
+              placeholder={'Input ' + this.state.letters + ' letters'}
             />
             <button
               id="guessButton"
