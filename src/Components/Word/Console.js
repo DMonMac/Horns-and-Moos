@@ -79,7 +79,7 @@ class Console extends Component {
               )
             } else {
               this.stopGame()
-              document.getElementById("statusMonitor").innerHTML = "No word with that number of letters. Please choose another number of letters."
+              document.getElementById("statusMonitor").innerHTML = "No words received. Please try another number of letters or try the Numerical version of this game first and try again later."
             }
           }
         )
