@@ -51,8 +51,8 @@ class Console extends Component {
   }
   // Required so that it's possible to input on the forms
   inputDigits(event) {
-    if (event.target.value < 1) {
-      alert("1 is the minimum allowed digit.")
+    if (event.target.value < 1 || event.target.value.match(/[^0-9]]/g)) {
+      alert("Invalid number of digits.")
       document.getElementById("digitsInput").reset();
     }
     this.setState(
@@ -66,8 +66,8 @@ class Console extends Component {
   }
   inputGuess(event) {
     this.setState({input: event.target.value})
-    if (event.target.value < 0) {
-      alert("Negative numbers are not allowed")
+    if (event.target.value < 0 || event.target.value.match(/[^0-9]]/g)) {
+      alert("Please input positive numbers only.")
       document.getElementById("guessInput").reset();
     }
   }

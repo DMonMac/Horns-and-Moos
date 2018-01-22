@@ -50,6 +50,7 @@ class Console extends Component {
       this.setState(
         { wordsAPI: wordsAPIjson },
           () => {
+            // eslint-disable-next-line
             if (this.state.wordsAPI.results.length != 0 || !!Object.keys(this.state.wordsAPI.results).length) {
               console.log("Results: " + this.state.wordsAPI.results.length)
               let wordGen = this.state.wordsAPI.results[Math.floor(Math.random() * this.state.wordsAPI.results.length)].word.toString();
