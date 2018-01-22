@@ -13,7 +13,7 @@ class Console extends Component {
     };
 
     this.newGame = this.newGame.bind(this);
-    this.inputLetters = this.inputLetters.bind(this);
+    //this.inputLetters = this.inputLetters.bind(this);
     this.lettersSubmit = this.lettersSubmit.bind(this);
     this.inputGuess = this.inputGuess.bind(this);
     this.resultCount = this.resultCount.bind(this);
@@ -61,16 +61,16 @@ class Console extends Component {
   }
 
   // Required so that it's possible to input on the forms
-  inputLetters(event) {
-    if (event.target.value < 1) {
-      alert("1 is the minimum allowed number of letters.")
-      document.getElementById("lettersInput").reset();
-    }
-    this.setState(
-      {letters: event.target.value.toLowerCase()},
-      () => {this.stopGame()}
-    )
-  }
+  //inputLetters(event) {
+  //  if (event.target.value < 1) {
+  //    alert("1 is the minimum allowed number of letters.")
+  //    document.getElementById("lettersInput").reset();
+  //  }
+  //  this.setState(
+  //    {letters: event.target.value.toLowerCase()},
+  //    () => {this.stopGame()}
+  //  )
+  //}
 
   // Prevent action when 'Enter' is pressed in input field
   lettersSubmit(event) {
@@ -191,7 +191,7 @@ class Console extends Component {
           <label>Letters: </label>
           <input
             value = {this.state.letters}
-            onChange={this.inputLetters}
+            //onChange={this.inputLetters}
             type="number"
             min='1'
             placeholder={'Input how many letters'}
