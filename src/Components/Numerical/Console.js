@@ -74,6 +74,7 @@ class Console extends Component {
   // Count Horns and Moos on click
   resultCount(event) {
     event.preventDefault();
+    // eslint-disable-next-line
     if (this.state.input.length == this.state.digits) {
       // Required values
       let numDigits = this.state.number.split('')
@@ -162,6 +163,7 @@ class Console extends Component {
     if (this.state.records.length !== 0) {
       let records = this.state.records
       let lastRecord = records[records.length - 1]
+      // eslint-disable-next-line
       if (lastRecord.horns != this.state.digits) {
         document.getElementById("statusMonitor").innerHTML = "Keep guessing..."
       } else {

@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import Results from './Results.js';
-import wordsList from './wordsList.js';
 
 class Console extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      wordsAPI: [],
       word: '',
       letters: 4,
       input: '',
       records: []
+
     };
 
     this.newGame = this.newGame.bind(this);
-    //this.inputLetters = this.inputLetters.bind(this);
+    this.inputLetters = this.inputLetters.bind(this);
     this.lettersSubmit = this.lettersSubmit.bind(this);
     this.inputGuess = this.inputGuess.bind(this);
     this.resultCount = this.resultCount.bind(this);
@@ -33,44 +34,69 @@ class Console extends Component {
   }
 
   newGame() {
-    //Get words API
-    if (!!Object.keys(wordsList).length) {
-      // Generate word
-      let wordGen = wordsList.data[Math.floor(Math.random() * wordsList.data.length)].toString();
-
-      // Reinitialize states
-      document.getElementById("guessInput").reset();
-      document.getElementById("guessButton").disabled = false
-      document.getElementById("statusMonitor").innerHTML = ""
-      document.getElementById("giveUpButton").disabled = false
-      this.setState({
-        word: wordGen,
-        input: '',
-        records: []
-      }, () => {
-                 console.log("Created new word: " + this.state.word)
-                 console.log("Initializing...")
-                 console.log("Input: " + this.state.input)
-                 console.log("Records:")
-                 console.log(this.state.records)
-               }
-      );
-    } else {
-        alert("Sorry. No word has that number of letters")
+    // Allow CORS by prefixing this URL
+    const corsAnywhere = "https://serene-lake-17093.herokuapp.com/";
+    let apiURL = `https://od-api.oxforddictionaries.com:443/api/v1/wordlist/en/lexicalCategory%3Dverb?word_length=${this.state.letters}`;
+    // Access Oxford Dictionary API
+    fetch((corsAnywhere + apiURL), {
+      method: 'GET',
+      headers: {
+        "Accept": "application/json",
+        "app_id": "a7ba1f56",
+        "app_key": "6d8b9abf8a6dc96eef656548788453c7"
       }
+    })
+    .catch(() => console.log("Can’t fetch API."))
+    .then(wordsAPI => wordsAPI.json())
+    .then(wordsAPIjson => {
+      this.setState(
+        { wordsAPI: wordsAPIjson },
+        () => {
+          console.log("Results: " + this.state.wordsAPI.results.length)
+          let wordGen = this.state.wordsAPI.results[Math.floor(Math.random() * this.state.wordsAPI.results.length)].word.toString();
+          console.log("Word: " + wordGen)
+          this.setState(
+            {word: wordGen},
+            () => {
+              // Reinitialize states
+              document.getElementById("guessInput").reset();
+              document.getElementById("guessButton").disabled = false
+              document.getElementById("statusMonitor").innerHTML = ""
+              document.getElementById("giveUpButton").disabled = false
+              this.setState({
+                word: wordGen,
+                input: '',
+                records: []
+              }, () => {
+                         console.log("Created new word: " + this.state.word)
+                         console.log("Initializing...")
+                         console.log("Input: " + this.state.input)
+                         console.log("Records:")
+                         console.log(this.state.records)
+                         document.getElementById("statusMonitor").innerHTML = "Game is ready! Begin guessing."
+                       }
+              );
+            }
+          )
+        }
+      )
+    })
+
+    document.getElementById("statusMonitor").innerHTML = "Loading new game..."
+
   }
 
   // Required so that it's possible to input on the forms
-  //inputLetters(event) {
-  //  if (event.target.value < 1) {
-  //    alert("1 is the minimum allowed number of letters.")
-  //    document.getElementById("lettersInput").reset();
-  //  }
-  //  this.setState(
-  //    {letters: event.target.value.toLowerCase()},
-  //    () => {this.stopGame()}
-  //  )
-  //}
+  inputLetters(event) {
+    if (event.target.value < 1 || event.target.value.match(/[a-zA-Z]/g)) {
+      alert("Invalid input.")
+      document.getElementById("lettersInput").reset();
+    }
+    this.setState(
+      {letters: event.target.value},
+      () => {this.stopGame()}
+    )
+  }
 
   // Prevent action when 'Enter' is pressed in input field
   lettersSubmit(event) {
@@ -86,6 +112,7 @@ class Console extends Component {
   // Count Horns and Moos on click
   resultCount(event) {
     event.preventDefault();
+    // eslint-disable-next-line
     if (this.state.input.length == this.state.letters) {
       // Required values
       let wordLetters = this.state.word.split('')
@@ -171,10 +198,11 @@ class Console extends Component {
   }
 
   render() {
-    console.log(wordsList.data)
+    console.log(this.state.word)
     if (this.state.records.length !== 0) {
       let records = this.state.records
       let lastRecord = records[records.length - 1]
+      // eslint-disable-next-line
       if (lastRecord.horns != this.state.letters) {
         document.getElementById("statusMonitor").innerHTML = "Keep guessing..."
       } else {
@@ -191,7 +219,7 @@ class Console extends Component {
           <label>Letters: </label>
           <input
             value = {this.state.letters}
-            //onChange={this.inputLetters}
+            onChange={this.inputLetters}
             type="number"
             min='1'
             placeholder={'Input how many letters'}
