@@ -33,7 +33,7 @@ class Console extends Component {
 
   newGame() {
     // Allow CORS by prefixing this URL
-    const corsAnywhere = "https://serene-lake-17093.herokuapp.com/";
+    const corsAnywhere = "https://horns-and-moos-proxy.herokuapp.com/";
     let apiURL = `https://od-api.oxforddictionaries.com:443/api/v1/wordlist/en/lexicalCategory%3Dverb?word_length=${this.state.letters}&exact=true`;
     // Access Oxford Dictionary API
     fetch((corsAnywhere + apiURL), {
