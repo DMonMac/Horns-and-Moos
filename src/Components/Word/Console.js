@@ -23,13 +23,13 @@ class Console extends Component {
 
   componentDidMount() {
     this.stopGame()
+    document.getElementById("statusMonitor").innerHTML = "Click 'New Game' to start";
   }
 
   stopGame() {
     document.getElementById("lettersInput").disabled = true;
     document.getElementById("guessInput").disabled = true;
     document.getElementById("guessButton").disabled = true;
-    document.getElementById("statusMonitor").innerHTML = "Click 'New Game' to start";
     document.getElementById("giveUpButton").disabled = true;
   }
 
@@ -46,40 +46,44 @@ class Console extends Component {
         "app_key": "6d8b9abf8a6dc96eef656548788453c7"
       }
     })
-    .catch(() => console.log("Can’t fetch API."))
+    .catch(() => alert("Can’t fetch API."))
     .then(wordsAPI => wordsAPI.json())
     .then(wordsAPIjson => {
-      this.setState(
-        { wordsAPI: wordsAPIjson },
-        () => {
-          console.log("Results: " + this.state.wordsAPI.results.length)
-          let wordGen = this.state.wordsAPI.results[Math.floor(Math.random() * this.state.wordsAPI.results.length)].word.toString();
-          console.log("Word: " + wordGen)
-          this.setState(
-            {word: wordGen},
-            () => {
-              // Reinitialize states
-              document.getElementById("guessInput").reset();
-              document.getElementById("guessButton").disabled = false
-              document.getElementById("statusMonitor").innerHTML = ""
-              document.getElementById("giveUpButton").disabled = false
-              this.setState({
-                word: wordGen,
-                input: '',
-                records: []
-              }, () => {
-                         console.log("Created new word: " + this.state.word)
-                         console.log("Initializing...")
-                         console.log("Input: " + this.state.input)
-                         console.log("Records:")
-                         console.log(this.state.records)
-                         document.getElementById("statusMonitor").innerHTML = "Game is ready! Begin guessing."
-                       }
-              );
-            }
-          )
-        }
-      )
+      if (!!Object.keys(this.state.wordsAPI).length) {
+        this.setState(
+          { wordsAPI: wordsAPIjson },
+          () => {
+            console.log("Results: " + this.state.wordsAPI.results.length)
+            let wordGen = this.state.wordsAPI.results[Math.floor(Math.random() * this.state.wordsAPI.results.length)].word.toString();
+            this.setState(
+              {word: wordGen},
+              () => {
+                // Reinitialize states
+                document.getElementById("guessInput").reset();
+                document.getElementById("guessButton").disabled = false
+                document.getElementById("statusMonitor").innerHTML = ""
+                document.getElementById("giveUpButton").disabled = false
+                this.setState({
+                  word: wordGen,
+                  input: '',
+                  records: []
+                }, () => {
+                           console.log("Created new word.")
+                           console.log("Initializing...")
+                           console.log("Input: " + this.state.input)
+                           console.log("Records:")
+                           console.log(this.state.records)
+                           document.getElementById("statusMonitor").innerHTML = "Game is ready! Begin guessing."
+                         }
+                );
+              }
+            )
+          }
+        )
+      } else {
+        this.stopGame()
+        document.getElementById("statusMonitor").innerHTML = "No word with that number of digits. Please choose another number of letters."
+      }
     })
 
     document.getElementById("statusMonitor").innerHTML = "Loading new game..."
@@ -94,7 +98,10 @@ class Console extends Component {
     }
     this.setState(
       {letters: event.target.value},
-      () => {this.stopGame()}
+      () => {
+        this.stopGame()
+        document.getElementById("statusMonitor").innerHTML = "Number of letters changed. Click 'New Game' to start";
+      }
     )
   }
 
@@ -198,7 +205,6 @@ class Console extends Component {
   }
 
   render() {
-    console.log(this.state.word)
     if (this.state.records.length !== 0) {
       let records = this.state.records
       let lastRecord = records[records.length - 1]
