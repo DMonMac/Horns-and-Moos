@@ -10,12 +10,9 @@ class Console extends Component {
       letters: 4,
       input: '',
       records: []
-
     };
-
     this.newGame = this.newGame.bind(this);
     this.inputLetters = this.inputLetters.bind(this);
-    this.lettersSubmit = this.lettersSubmit.bind(this);
     this.inputGuess = this.inputGuess.bind(this);
     this.resultCount = this.resultCount.bind(this);
     this.giveUp = this.giveUp.bind(this);
@@ -27,6 +24,7 @@ class Console extends Component {
   }
 
   stopGame() {
+    console.log('Game stopped')
     document.getElementById("lettersInput").disabled = true;
     document.getElementById("guessInput").disabled = true;
     document.getElementById("guessButton").disabled = true;
@@ -36,7 +34,7 @@ class Console extends Component {
   newGame() {
     // Allow CORS by prefixing this URL
     const corsAnywhere = "https://serene-lake-17093.herokuapp.com/";
-    let apiURL = `https://od-api.oxforddictionaries.com:443/api/v1/wordlist/en/lexicalCategory%3Dverb?word_length=${this.state.letters}`;
+    let apiURL = `https://od-api.oxforddictionaries.com:443/api/v1/wordlist/en/lexicalCategory%3Dverb?word_length=${this.state.letters}&exact=true`;
     // Access Oxford Dictionary API
     fetch((corsAnywhere + apiURL), {
       method: 'GET',
@@ -49,51 +47,49 @@ class Console extends Component {
     .catch(() => alert("Can’t fetch API."))
     .then(wordsAPI => wordsAPI.json())
     .then(wordsAPIjson => {
-      if (!!Object.keys(this.state.wordsAPI).length) {
-        this.setState(
-          { wordsAPI: wordsAPIjson },
+      this.setState(
+        { wordsAPI: wordsAPIjson },
           () => {
-            console.log("Results: " + this.state.wordsAPI.results.length)
-            let wordGen = this.state.wordsAPI.results[Math.floor(Math.random() * this.state.wordsAPI.results.length)].word.toString();
-            this.setState(
-              {word: wordGen},
-              () => {
-                // Reinitialize states
-                document.getElementById("guessInput").reset();
-                document.getElementById("guessButton").disabled = false
-                document.getElementById("statusMonitor").innerHTML = ""
-                document.getElementById("giveUpButton").disabled = false
-                this.setState({
-                  word: wordGen,
-                  input: '',
-                  records: []
-                }, () => {
-                           console.log("Created new word.")
-                           console.log("Initializing...")
-                           console.log("Input: " + this.state.input)
-                           console.log("Records:")
-                           console.log(this.state.records)
-                           document.getElementById("statusMonitor").innerHTML = "Game is ready! Begin guessing."
-                         }
-                );
-              }
-            )
+            if (this.state.wordsAPI.results.length != 0 || !!Object.keys(this.state.wordsAPI.results).length) {
+              console.log("Results: " + this.state.wordsAPI.results.length)
+              let wordGen = this.state.wordsAPI.results[Math.floor(Math.random() * this.state.wordsAPI.results.length)].word.toString();
+              this.setState(
+                {word: wordGen},
+                () => {
+                  // Reinitialize states
+                  document.getElementById("guessInput").reset();
+                  document.getElementById("guessButton").disabled = false
+                  document.getElementById("statusMonitor").innerHTML = ""
+                  document.getElementById("giveUpButton").disabled = false
+                  this.setState({
+                    word: wordGen,
+                    input: '',
+                    records: []
+                  }, () => {
+                             console.log("Created new word.")
+                             console.log("Initializing...")
+                             console.log("Input: " + this.state.input)
+                             console.log("Records:")
+                             console.log(this.state.records)
+                             document.getElementById("statusMonitor").innerHTML = "Game is ready! Begin guessing."
+                           }
+                  );
+                }
+              )
+            } else {
+              this.stopGame()
+              document.getElementById("statusMonitor").innerHTML = "No word with that number of letters. Please choose another number of letters."
+            }
           }
         )
-      } else {
-        this.stopGame()
-        document.getElementById("statusMonitor").innerHTML = "No word with that number of letters. Please choose another number of letters."
-      }
     })
-
     document.getElementById("statusMonitor").innerHTML = "Loading new game..."
-
   }
 
   // Required so that it's possible to input on the forms
   inputLetters(event) {
-    if (event.target.value < 1 || event.target.value.match(/[a-zA-Z]/g)) {
-      alert("Invalid input.")
+    if (event.target.value < 1 || event.target.value.match(/[^0-9]]/g)) {
+      alert("Invalid number of letters.")
       document.getElementById("lettersInput").reset();
     }
     this.setState(
@@ -111,11 +107,13 @@ class Console extends Component {
   }
 
   inputGuess(event) {
-    this.setState({input: event.target.value})
-    if (event.target.value.match(/[^a-zA-Z]/g)) {
-      alert("Only letters are allowed");
+    if (event.target.value.match(/[^A-Za-z]/g)) {
+      alert("Invalid guess. Only letters are allowed");
+      document.getElementById("guessInput").reset();
     }
+    this.setState({input: event.target.value})
   }
+
   // Count Horns and Moos on click
   resultCount(event) {
     event.preventDefault();
@@ -231,7 +229,7 @@ class Console extends Component {
             placeholder={'Input how many letters'}
           />
         </form>
-        <p>I'm thinking of a {this.state.letters}-letter word...</p>
+        <p>I'm thinking of a {this.state.letters}-letter verb...</p>
           <form id="guessInput">
             <label>Guess: </label>
             <input
