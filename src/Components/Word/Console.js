@@ -44,7 +44,10 @@ class Console extends Component {
         "app_key": "6d8b9abf8a6dc96eef656548788453c7"
       }
     })
-    .catch(() => alert("Can’t fetch API."))
+    .catch(() => {
+      alert("Can’t fetch API.")
+      this.stopGame()
+    })
     .then(wordsAPI => wordsAPI.json())
     .then(wordsAPIjson => {
       this.setState(
