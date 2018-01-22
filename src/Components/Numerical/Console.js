@@ -41,7 +41,7 @@ class Console extends Component {
       input: '',
       records: []
     }, () => {
-               console.log("Created new number: " + this.state.number)
+               console.log("Created new number.")
                console.log("Initializing...")
                console.log("Input: " + this.state.input)
                console.log("Records:")
@@ -92,7 +92,7 @@ class Console extends Component {
       // Compare number and guess by index
       for(var i = numDigits.length -1; i >=0; i--){
         console.log("Index: " + i)
-        console.log("Number Digit: " + numDigits[i])
+        //console.log("Number Digit: " + numDigits[i])
         let inputDigit = inputDigits[i]
         console.log("Guess Digit: " + inputDigit)
         if (inputDigit === numDigits[i]) {
@@ -113,7 +113,7 @@ class Console extends Component {
         inputDigits.splice(index,1)
       })
       console.log('Remaining digits to check:')
-      console.log(numDigits)
+      console.log(numDigits.length)
       console.log('Check with these digits:')
       console.log(inputDigits)
 
