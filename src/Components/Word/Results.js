@@ -5,8 +5,8 @@ class Guesses extends Component {
     return (
       <div>
         <h3>Guesses:</h3>
-          <ol>
-            {this.props.records.map((record, index) => <li key={index}>{record.guess.toUpperCase()}: {record.horns} Horns, {record.moos} Moos</li>)}
+          <ol id="results-div">
+            {this.props.records.map((record, index) => <li key={index}><span>{record.guess.toUpperCase()}</span>: <span>{record.horns}</span> Horns, <span>{record.moos}</span> Moos</li>)}
           </ol>
       </div>
     );

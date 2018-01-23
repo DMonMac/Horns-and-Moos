@@ -219,14 +219,19 @@ class Console extends Component {
       if (lastRecord.horns != this.state.letters) {
         document.getElementById("statusMonitor").innerHTML = "Keep guessing..."
       } else {
-        document.getElementById("statusMonitor").innerHTML = "You got it! Good job!"
+        document.getElementById("statusMonitor").innerHTML = "";
+        // Create message with span tag to apply css span style
+        let winSpan = document.createElement("span");
+        let winMsg = document.createTextNode("You got it! Good job!");
+        winSpan.appendChild(winMsg);
+        document.getElementById("statusMonitor").appendChild(winSpan);
         document.getElementById("guessButton").disabled = true
         document.getElementById("giveUpButton").disabled = true
         console.log("'Try' button now disabled. Click 'New Game' to play again.")
       }
     }
     return (
-      <div>
+      <div id="console-content">
         <h2>Word Horns and Moos:</h2>
         <form id="lettersInput" onSubmit={this.lettersSubmit}>
           <label>Letters: </label>

@@ -184,14 +184,19 @@ class Console extends Component {
       if (lastRecord.horns != this.state.digits) {
         document.getElementById("statusMonitor").innerHTML = "Keep guessing..."
       } else {
-        document.getElementById("statusMonitor").innerHTML = "You got it! Good job!"
+        document.getElementById("statusMonitor").innerHTML = "";
+        // Create message with span tag to apply css span style
+        let winSpan = document.createElement("span");
+        let winMsg = document.createTextNode("You got it! Good job!");
+        winSpan.appendChild(winMsg);
+        document.getElementById("statusMonitor").appendChild(winSpan);
         document.getElementById("guessButton").disabled = true
         document.getElementById("giveUpButton").disabled = true
         console.log("'Try' button now disabled. Click 'New Game' to play again.")
       }
     }
     return (
-      <div>
+      <div id="console-content">
         <h2>Numerical Horns and Moos:</h2>
         <form id="digitsInput" onSubmit={this.digitsSubmit}>
           <label>Digits: </label>
@@ -203,7 +208,7 @@ class Console extends Component {
             placeholder={'Input number of digits'}
           />
         </form>
-        <p>I'm thinking of a {this.state.digits}-digit number...</p>
+        <p>I'm thinking of a <span>{this.state.digits}-digit number</span>...</p>
           <form id="guessInput">
             <label>Guess: </label>
             <input

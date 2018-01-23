@@ -6,20 +6,20 @@
 #App-header {
   background-color: #222;
   height: auto;
-  padding: 2.5vh 2.5vw;
+  padding: 2vh 0vw;
   color: #fff;
   position: relative;
 }
 
 #App-header h1 {
-  font-size: 40px;
+  font-size: 4.5vh;
   margin: 1.5vh 0vw;
   width: 100%;
 }
 
 #App-logo {
   animation: App-logo-spin infinite 5s linear;
-  height: 80px;
+  height: 10vh;
 }
 
 @keyframes App-logo-spin {
@@ -29,46 +29,39 @@
 
 #App-contents {
   width: 80%;
-  margin: 0 auto;
-  font-size: 125%;
+  font-size: 2.5vh;
   margin: 3vh auto;
   color: #222;
 }
 
 #rules-div h2 {
-  margin: 3vh auto;
+  margin-top: 6vh;
 }
 
 #rules-div p {
-  line-height: 35px;
+  line-height: 4vh;
 
 }
 
-#rules-div span {
+span {
   font-weight: bold;
 }
 
-#console-dock {
-  text-align: left;
-  margin: 0 20vw;
-  width: 100%;
-}
-
 #console-div h2 {
-  margin: 3vh auto;
+  margin-top: 6vh;
 }
 
 #console-div button {
   transition-duration: 0.4s;
   text-decoration: none;
   background-color: #fff;
-  border: 2px solid #67DAFA;
-  border-radius: 10px;
+  border: 0.25vh solid #67DAFA;
+  border-radius: 1vh;
   font-size: 100%;
   font-family: 'Fredericka the Great', cursive;
-  padding: 10px;
+  padding: 1vh;
   font-weight: bold;
-  margin: 0 1vw;
+  margin: 1vh;
   color: #222;
 }
 
@@ -80,5 +73,45 @@
 #console-div button:disabled {
     background-color: #fff;
     color: #aaa;
-    border: 2px solid #aaa;
+    border: 0.25vh solid #aaa;
+}
+
+input {
+  font-family: 'Fredericka the Great', cursive;
+  font-size: 100%;
+  width: 50%;
+  border: 0.25vh solid #aaa;
+  border-radius: 1vh;
+  padding: 1vh;
+  color: #000;
+  text-align: center;
+  font-weight: bold;
+}
+
+input::placeholder {
+  font-weight: normal;
+}
+
+input:focus {
+  border: 0.4vh solid #67DAFA;
+  color: #67DAFA;
+}
+
+label {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+#results-div h3 {
+  margin-top: 4vh;
+  margin-bottom: 1vh;
+}
+#results-div ol {
+  width: fit-content;
+  margin: 0 auto;
+  line-height: 4vh;
+}
+
+#statusMonitor {
+  margin: 5vh auto 0vh auto;
 }
