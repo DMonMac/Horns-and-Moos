@@ -42,12 +42,39 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Horns and Moos</h1>
           </header>
-          <button onClick={() => this.showNumberConsole()} id="numberConsoleButton">Numerical</button><button onClick={() => this.showWordConsole()} id="wordConsoleButton">Word</button>
+          <div className=".App-intro">
+            <div id="rules-div">
+              <h3>HOW TO PLAY</h3>
+              <p>
+                Guess the number or word.
+                <br/><br/>
+                These clues will help you:
+                <br/>
+                <span>Horns</span>: Digit/Letter is <span>present</span> and in its <span>correct position</span>.
+                <br/>
+                <span>Moos</span>: Digit/Letter is <span>present</span> but is in the <span>wrong position</span>.
+                <br/><br/>
+                You can change the number of digits/letters before playing.
+                <br/><br/>
+                The Word Version can only generate a limited number of words per month.
+              <br/>
+                It may not generate a word when you play it.
+                <br/>
+                But hey, at least there's the Number Version, right?
+              </p>
+            </div>
+          </div>
         </div>
-        <div id="consoleDock">
-          {this.state.numberConsoleVisible ? <NumberConsole /> : null}
-          {this.state.wordConsoleVisible ? <WordConsole /> : null}
+
+        <div id="console-div">
+          <h3>Select Version</h3>
+          <button onClick={() => this.showNumberConsole()} id="numberConsoleButton">Number</button><button onClick={() => this.showWordConsole()} id="wordConsoleButton">Word</button>
+          <div id="console-dock">
+            {this.state.numberConsoleVisible ? <NumberConsole /> : null}
+            {this.state.wordConsoleVisible ? <WordConsole /> : null}
+          </div>
         </div>
+
       </div>
     );
   }
