@@ -12,7 +12,6 @@ class App extends Component {
       wordConsoleVisible: false,
       word: null
     }
-    this.showNumberConsole = this.showNumberConsole.bind(this);
   }
 
   showNumberConsole() {
@@ -37,44 +36,42 @@ class App extends Component {
     //document.getElementById("consoleSlot")
     return (
       <div>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Horns and Moos</h1>
+        <div id="App">
+          <header id="App-header">
+            <img src={logo} id="App-logo" alt="logo" />
+            <h1>Horns and Moos</h1>
           </header>
-          <div className=".App-intro">
+          <div id="App-contents">
             <div id="rules-div">
-              <h3>HOW TO PLAY</h3>
+              <h2>HOW TO PLAY</h2>
               <p>
-                Guess the number or word.
+                <span>Guess</span> the <span>number</span> or <span>word</span>.
                 <br/><br/>
-                These clues will help you:
+                These <span>clues</span> will help you:
                 <br/>
                 <span>Horns</span>: Digit/Letter is <span>present</span> and in its <span>correct position</span>.
                 <br/>
                 <span>Moos</span>: Digit/Letter is <span>present</span> but is in the <span>wrong position</span>.
                 <br/><br/>
-                You can change the number of digits/letters before playing.
+                You can <span>change</span> the number of <span>digits/letters</span> before playing.
                 <br/><br/>
-                The Word Version can only generate a limited number of words per month.
+                The <span>Word Version</span> can only generate a <span>limited</span> number of <span>words per month</span>.
               <br/>
                 It may not generate a word when you play it.
                 <br/>
-                But hey, at least there's the Number Version, right?
+                But hey, at least there's the <span>Number Version</span>, right?
               </p>
+            </div>
+            <div id="console-div">
+              <h2>Select Version</h2>
+              <button onClick={() => this.showNumberConsole()} id="numberConsoleButton">Number</button><button onClick={() => this.showWordConsole()} id="wordConsoleButton">Word</button>
+              <div id="console-dock">
+                {this.state.numberConsoleVisible ? <NumberConsole /> : null}
+                {this.state.wordConsoleVisible ? <WordConsole /> : null}
+              </div>
             </div>
           </div>
         </div>
-
-        <div id="console-div">
-          <h3>Select Version</h3>
-          <button onClick={() => this.showNumberConsole()} id="numberConsoleButton">Number</button><button onClick={() => this.showWordConsole()} id="wordConsoleButton">Word</button>
-          <div id="console-dock">
-            {this.state.numberConsoleVisible ? <NumberConsole /> : null}
-            {this.state.wordConsoleVisible ? <WordConsole /> : null}
-          </div>
-        </div>
-
       </div>
     );
   }

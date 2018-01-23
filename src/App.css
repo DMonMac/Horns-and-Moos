@@ -1,8 +1,23 @@
-.App {
+#App {
   text-align: center;
+  width: 100%
 }
 
-.App-logo {
+#App-header {
+  background-color: #222;
+  height: auto;
+  padding: 2.5vh 2.5vw;
+  color: #fff;
+  position: relative;
+}
+
+#App-header h1 {
+  font-size: 40px;
+  margin: 1.5vh 0vw;
+  width: 100%;
+}
+
+#App-logo {
   animation: App-logo-spin infinite 5s linear;
   height: 80px;
 }
@@ -12,30 +27,58 @@
   to { transform: rotate(360deg); }
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+#App-contents {
+  width: 80%;
+  margin: 0 auto;
+  font-size: 125%;
+  margin: 3vh auto;
+  color: #222;
 }
 
-.App-title {
-  font-size: 1.5em;
+#rules-div h2 {
+  margin: 3vh auto;
 }
 
-.App-intro {
-  font-size: large;
+#rules-div p {
+  line-height: 35px;
+
 }
 
 #rules-div span {
   font-weight: bold;
 }
 
-#console-div {
-  text-align: center;
-}
-
 #console-dock {
   text-align: left;
-  margin: 0 20vw
+  margin: 0 20vw;
+  width: 100%;
+}
+
+#console-div h2 {
+  margin: 3vh auto;
+}
+
+#console-div button {
+  transition-duration: 0.4s;
+  text-decoration: none;
+  background-color: #fff;
+  border: 2px solid #67DAFA;
+  border-radius: 10px;
+  font-size: 100%;
+  font-family: 'Fredericka the Great', cursive;
+  padding: 10px;
+  font-weight: bold;
+  margin: 0 1vw;
+  color: #222;
+}
+
+#console-div button:hover {
+    background-color: #67DAFA;
+    color: white;
+}
+
+#console-div button:disabled {
+    background-color: #fff;
+    color: #aaa;
+    border: 2px solid #aaa;
 }
