@@ -24,132 +24,138 @@ class Console extends Component {
   }
 
   newGame() {
-    // Generate number
-    let numberGen = Math.floor(Math.random()*Math.floor(Math.pow(10, this.state.digits)));
-    let length = this.state.digits;
-    let numberToGuess = '' + numberGen;
-    while (numberToGuess.length < length) {
-      numberToGuess = '0' + numberToGuess
+    if (this.state.digits < 1 || this.state.digits.toString().match(/\D/g)) {
+      alert("Invalid number of digits.")
+      document.getElementById("digitsInput").reset();
+    } else {
+      // Generate number
+      let numberGen = Math.floor(Math.random()*Math.floor(Math.pow(10, this.state.digits)));
+      let length = this.state.digits;
+      let numberToGuess = '' + numberGen;
+      while (numberToGuess.length < length) {
+        numberToGuess = '0' + numberToGuess
+      }
+      // Reinitialize states
+      document.getElementById("guessInput").reset();
+      document.getElementById("guessButton").disabled = false
+      document.getElementById("statusMonitor").innerHTML = ""
+      document.getElementById("giveUpButton").disabled = false
+      this.setState({
+        number: numberToGuess,
+        input: '',
+        records: []
+      }, () => {
+                 console.log("Created new number.")
+                 console.log("Initializing...")
+                 console.log("Input: " + this.state.input)
+                 console.log("Records:")
+                 console.log(this.state.records)
+               }
+      );
     }
-    // Reinitialize states
-    document.getElementById("guessInput").reset();
-    document.getElementById("guessButton").disabled = false
-    document.getElementById("statusMonitor").innerHTML = ""
-    document.getElementById("giveUpButton").disabled = false
-    this.setState({
-      number: numberToGuess,
-      input: '',
-      records: []
-    }, () => {
-               console.log("Created new number.")
-               console.log("Initializing...")
-               console.log("Input: " + this.state.input)
-               console.log("Records:")
-               console.log(this.state.records)
-             }
-    );
   }
   // Required so that it's possible to input on the forms
   inputDigits(event) {
-    if (event.target.value < 1 || event.target.value.match(/[^0-9]]/g)) {
-      alert("Invalid number of digits.")
-      document.getElementById("digitsInput").reset();
-    }
     this.setState(
       {digits: event.target.value},
       () => {this.newGame()}
     )
   }
-  // Prevent action when 'Enter' is pressed in input field
-  digitsSubmit(event) {
+  digitsSubmit(event) { // Prevent action when 'Enter' is pressed in input field
     event.preventDefault();
   }
   inputGuess(event) {
     this.setState({input: event.target.value})
-    if (event.target.value < 0 || event.target.value.match(/[^0-9]]/g)) {
+    if (event.target.value < 0 || event.target.value.match(/\D/g)) {
       alert("Please input positive numbers only.")
       document.getElementById("guessInput").reset();
     }
   }
+
   // Count Horns and Moos on click
   resultCount(event) {
     event.preventDefault();
-    // eslint-disable-next-line
-    if (this.state.input.length == this.state.digits) {
-      // Required values
-      let numDigits = this.state.number.split('')
-      let inputDigits = this.state.input.split('')
-      let records = this.state.records
-
-      // Initialize count
-      let horns = 0
-      let hornIndeces = []
-      let moos = 0
-      console.log('Guess: ' + this.state.input)
-      console.log('Results for ' + this.state.input + ":")
-
-      //Solve for Horns:
-      console.log('Solve for Horns:')
-      // Compare number and guess by index
-      for(var i = numDigits.length -1; i >=0; i--){
-        console.log("Index: " + i)
-        //console.log("Number Digit: " + numDigits[i])
-        let inputDigit = inputDigits[i]
-        console.log("Guess Digit: " + inputDigit)
-        if (inputDigit === numDigits[i]) {
-          horns++;
-          hornIndeces = hornIndeces.concat(i)
-        }
-      }
-      console.log("Horns: " + horns)
-      console.log("Horn Indeces:")
-      console.log(hornIndeces)
-
-      //Solve for Cows
-      console.log('Solve for Moos:')
-      console.log('Removing these indeces from Number Digits Array:')
-      console.log(hornIndeces)
-      hornIndeces.forEach(index => {
-        numDigits.splice(index,1)
-        inputDigits.splice(index,1)
-      })
-      console.log('Remaining digits to check:')
-      console.log(numDigits.length)
-      console.log('Check with these digits:')
-      console.log(inputDigits)
-
-      inputDigits.forEach(digit => {
-        let numIndexToRemove = numDigits.indexOf(digit)
-        if (numIndexToRemove !== -1) {
-          numDigits.splice(numIndexToRemove,1)
-          moos++;
-        }
-      })
-      console.log("Moos: " + moos)
-
-      this.setState({
-        records: records.concat(
-          [
-            {
-              guess: this.state.input,
-              horns: horns,
-              hornIndeces: hornIndeces,
-              moos: moos
-            }
-          ]
-        )
-      }, () => {
-        console.log('Stored this data in records:')
-        console.log(this.state.records[this.state.records.length - 1])
-        console.log('Records updated:')
-        console.log(this.state.records)
-      });
-      console.log('Resetting input field...')
-      document.getElementById("guessInput").reset()
-
+    if (this.state.digits < 1 || this.state.digits.toString().match(/\D/g)) {
+      alert("Invalid number of digits.")
+      document.getElementById("digitsInput").reset();
     } else {
-        alert("Please input a " + this.state.digits +"-digit number" )
-      }
+      // eslint-disable-next-line
+      if (this.state.input.length == this.state.digits) {
+        // Required values
+        let numDigits = this.state.number.split('')
+        let inputDigits = this.state.input.split('')
+        let records = this.state.records
+
+        // Initialize count
+        let horns = 0
+        let hornIndeces = []
+        let moos = 0
+        console.log('Guess: ' + this.state.input)
+        console.log('Results for ' + this.state.input + ":")
+
+        //Solve for Horns:
+        console.log('Solve for Horns:')
+        // Compare number and guess by index
+        for(var i = numDigits.length -1; i >=0; i--){
+          console.log("Index: " + i)
+          //console.log("Number Digit: " + numDigits[i])
+          let inputDigit = inputDigits[i]
+          console.log("Guess Digit: " + inputDigit)
+          if (inputDigit === numDigits[i]) {
+            horns++;
+            hornIndeces = hornIndeces.concat(i)
+          }
+        }
+        console.log("Horns: " + horns)
+        console.log("Horn Indeces:")
+        console.log(hornIndeces)
+
+        //Solve for Cows
+        console.log('Solve for Moos:')
+        console.log('Removing these indeces from Number Digits Array:')
+        console.log(hornIndeces)
+        hornIndeces.forEach(index => {
+          numDigits.splice(index,1)
+          inputDigits.splice(index,1)
+        })
+        console.log('Remaining digits to check:')
+        console.log(numDigits.length)
+        console.log('Check with these digits:')
+        console.log(inputDigits)
+
+        inputDigits.forEach(digit => {
+          let numIndexToRemove = numDigits.indexOf(digit)
+          if (numIndexToRemove !== -1) {
+            numDigits.splice(numIndexToRemove,1)
+            moos++;
+          }
+        })
+        console.log("Moos: " + moos)
+
+        this.setState({
+          records: records.concat(
+            [
+              {
+                guess: this.state.input,
+                horns: horns,
+                hornIndeces: hornIndeces,
+                moos: moos
+              }
+            ]
+          )
+        }, () => {
+          console.log('Stored this data in records:')
+          console.log(this.state.records[this.state.records.length - 1])
+          console.log('Records updated:')
+          console.log(this.state.records)
+        });
+        console.log('Resetting input field...')
+        document.getElementById("guessInput").reset()
+
+      } else {
+          alert("Please input a " + this.state.digits +"-digit number" )
+        }
+    }
   }
 
   giveUp(){
