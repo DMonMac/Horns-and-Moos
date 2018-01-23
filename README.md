@@ -5,18 +5,20 @@ This is a Bulls and Cows game under a different name.
 Here's the app in action: https://horns-and-moos.herokuapp.com/
 
 ### HOW TO PLAY
-Guess the number or word.
+**Guess** the **number** or **word**.
 
-These clues will help you:
+These **clues** will help you:
 
-- Horns: Digit/Letter is present and in its correct position.
-- Moos: Digit/Letter is present but is in the wrong position.
+- **Horns**: Digit/Letter is **present** and in its **correct position**.
+- *Moos*: Digit/Letter is *present* but is in the *wrong position*.
 
-You can change the number of digits/letters before playing.
+**Each letter/digit** will be **counted only once**. It will be checked as a **Horn first** (if it is a Horn), *then as a Moo* (if it is a Moo).
 
-The Word Version can only generate a limited number of words per month. It may not generate a word when you play it.
+You can **change** the number of **digits/letters** before playing.
 
-But hey, at least there's the Number Version, right?
+The **Word Version** can only generate a **limited** number of **words per month**. It may not generate a word when you play it.
+
+But hey, at least there's the **Number Version**, right?
 
 #### Example
 Number: ***5 4 9 2***

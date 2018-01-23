@@ -53,6 +53,7 @@ class App extends Component {
                 <br/>
                 <span>Moos</span>: Digit/Letter is <span>present</span> but is in the <span>wrong position</span>.
                 <br/><br/>
+                <span>Each letter/digit</span> will be <span>counted only once</span>. It will be checked as a <span>Horn first</span> (if it is a Horn), <span>then as a Moo</span> (if it is a Moo).<br/><br/>
                 You can <span>change</span> the number of <span>digits/letters</span> before playing.
                 <br/><br/>
                 The <span>Word Version</span> can only generate a <span>limited</span> number of <span>words per month</span>.
