@@ -1,14 +1,22 @@
-## Horns and Moos
+## **[![React](https://user-images.githubusercontent.com/29721601/31213521-a275572e-a9d9-11e7-929d-1d854b01d279.png "React")](https://facebook.github.io/react/) Horns and Moos**
 
 This is a Bulls and Cows game under a different name.
 
-### RULES
-### Numerical Version
-- The player should try to guess the 4 digit number.
-- The player will know how close his guess is from these clues:
-  - Bulls: Digits are present and in the right position.
-  - Cows: Digits are present but in the wrong position.
-- If either number has repeated digits the rule is that each digit can only count towards the score once, and Bulls are counted before Cows.
+Here's the app in action: https://horns-and-moos.herokuapp.com/
+
+### HOW TO PLAY
+Guess the number or word.
+
+These clues will help you:
+
+- Horns: Digit/Letter is present and in its correct position.
+- Moos: Digit/Letter is present but is in the wrong position.
+
+You can change the number of digits/letters before playing.
+
+The Word Version can only generate a limited number of words per month. It may not generate a word when you play it.
+
+But hey, at least there's the Number Version, right?
 
 #### Example
 Number: ***5 4 9 2***
@@ -20,6 +28,3 @@ Guess | Result
  **5** *2* 3 *4* | 1 **Bull**, 2 *Cows*
  **5** *9* *4* **2** | 2 **Bulls**, 2 *Cows*
  **5** **4** **9** **2** | 4 **Bulls**, 0 Cows
-
-### Word Version
-- Similar to the [Numerical Version](#numerical-version) but instead of numbers, words are used.
