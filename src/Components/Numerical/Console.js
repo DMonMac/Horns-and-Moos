@@ -23,6 +23,14 @@ class Console extends Component {
     this.newGame()
   }
 
+  stopGame() {
+    console.log('Game stopped')
+    document.getElementById("digitsInput").disabled = true;
+    document.getElementById("guessInput").disabled = true;
+    document.getElementById("guessButton").disabled = true;
+    document.getElementById("giveUpButton").disabled = true;
+  }
+
   newGame() {
     if (this.state.digits < 1 || this.state.digits.toString().match(/\D/g)) {
       alert("Invalid number of digits.")
@@ -58,7 +66,10 @@ class Console extends Component {
   inputDigits(event) {
     this.setState(
       {digits: event.target.value},
-      () => {this.newGame()}
+      () => {
+        this.stopGame()
+        document.getElementById("statusMonitor").innerHTML = "Number of digits changed. Click 'New Game' to start";
+      }
     )
   }
   digitsSubmit(event) { // Prevent action when 'Enter' is pressed in input field
