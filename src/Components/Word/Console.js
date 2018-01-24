@@ -5,7 +5,7 @@ class Console extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      wordsAPI: [],
+      wordsAPI: {},
       word: '',
       letters: 4,
       input: '',
